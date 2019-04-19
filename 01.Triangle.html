@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+  <title>Make 3d Square</title>
+  <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+  <script type="text/javascript" src="webgl-utils.js"></script>
+  
+  <script id="vertex" type="x-shader"> 
+    mat4 uMVMatrix = mat4 (1.0, 0.0, 0.0, 0.0,
+                				   0.0, 1.0, 0.0, 0.0,
+                				   0.0, 0.0, 1.0, 0.0,
+                				   0.0, 0.0, -3.333, 1.0 );
+
+    mat4 uPMatrix = mat4 (2.41421, 0.0, 0.0, 0.0,
+                				  0.0, 2.41421, 0.0, 0.0,
+                				  0.0, 0.0, -1.002002, -1.0,
+                				  0.0, 0.0, -0.2002002, 0.0 );
+
+    attribute vec2 aVertexPosition;
+   
+    void main() {
+      gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+    }
+  </script> 
+  
+  <script id="fragment" type="x-shader">
+    precision highp float;
+    uniform vec4 uColor;
+  
+    void main() {
+      gl_FragColor = uColor;
+    }
+  </script> 
+  
+  <script type="text/javascript">
+    var shaderProgram;
+    var cubeVertexPositionBuffer;
+  
+    function init() {
+      initWebGL();
+      initShaderProgram();
+      initGeometry();
+      tick();
+    }
+
+    //inicia contexto webGL en elemento canvas
+    
+    function initWebGL() {
+      canvas = document.getElementById("mycanvas");
+      gl = canvas.getContext("webgl");
+    
+      var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
+      for (var i = 0; i < names.length; ++i) {
+        try {
+          gl = canvas.getContext(names[i]);
+        }
+        catch (e) {}
+        if (gl) break;
+      }
+    
+      gl.viewportWidth = canvas.width;
+      gl.viewportHeight = canvas.height;
+    }
+    
+    function initShaderProgram() {
+      var v = document.getElementById("vertex").firstChild.nodeValue;
+      var f = document.getElementById("fragment").firstChild.nodeValue;
+    
+      var vs = gl.createShader(gl.VERTEX_SHADER);
+      gl.shaderSource(vs, v);
+      gl.compileShader(vs);
+    
+      var fs = gl.createShader(gl.FRAGMENT_SHADER);
+      gl.shaderSource(fs, f);
+      gl.compileShader(fs);
+    
+      shaderProgram = gl.createProgram();
+      gl.attachShader(shaderProgram, vs);
+      gl.attachShader(shaderProgram, fs);
+      gl.linkProgram(shaderProgram);
+    
+      if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS))
+        console.log(gl.getShaderInfoLog(vs));
+    
+      if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS))
+        console.log(gl.getShaderInfoLog(fs));
+    
+      if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
+        console.log(gl.getProgramInfoLog(shaderProgram));
+    
+      gl.useProgram(shaderProgram);
+
+      shaderProgram.uColor = gl.getUniformLocation(shaderProgram, "uColor");
+      gl.uniform4fv(shaderProgram.uColor, [0.0, 1.0, 0.0, 1.0]);
+
+      shaderProgram.aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+      gl.enableVertexAttribArray(shaderProgram.aVertexPosition);
+    }
+          
+    function initGeometry() {
+      var vertices = new Float32Array([-0.5, 0.5, 0.5, - 0.5, - 0.5, - 0.5]);
+
+      cubeVertexPositionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+      cubeVertexPositionBuffer.itemSize = 2;
+      cubeVertexPositionBuffer.numItems = vertices.length / cubeVertexPositionBuffer.itemSize;
+    }
+  
+    function draw() {
+      gl.vertexAttribPointer(shaderProgram.aVertexPosition, cubeVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+      
+      gl.clearColor(0, 0.5, 0, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+    
+      gl.drawArrays(gl.TRIANGLES, 0, cubeVertexPositionBuffer.numItems);
+    }
+    
+    function animate() {    }
+      
+    function tick() {
+      requestAnimFrame(tick);
+      animate();
+      draw();
+    }
+  </script>
+  </head>
+  <body onload="init()">
+  <canvas id="mycanvas" width="500" height="500">
+  </body>
+</html>
