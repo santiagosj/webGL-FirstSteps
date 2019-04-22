@@ -33,11 +33,11 @@ var fragmentShaderSource =
 
 var gl;  //contexto WebGL .
 
-var attributeCoords;  // Location of the attribute named "a_coords".
-var bufferCoords;     // A vertex buffer object to hold the values for coords.
+var attributeCoords;  // localizacion del atributo "a_coords".
+var bufferCoords;     // Un objeto vertex buffer para contener los valores de coords.
 
-var attributeColor;   // Location of the attribute named "a_color".
-var bufferColor;     // A vertex buffer object to hold the values for color.
+var attributeColor;   // localizacion del atributo "a_color".
+var bufferColor;     //  Un objeto vertex buffer para contener los valores de color.
 
 /**
  *  dibuja el contenido en el canvas en este caso un triangulo.
@@ -102,7 +102,7 @@ function createProgram(gl, vertexShaderSource, fragmentShaderSource) {
 }
 
 /**
- * Initialize the WebGL graphics context
+ * Inicializa el contexto WebGL
  */
 function initGL() {
     var prog = createProgram( gl, vertexShaderSource, fragmentShaderSource );
@@ -114,12 +114,12 @@ function initGL() {
 }
 
 /**
- * Initialize the program.  This function is called after the page has been loaded.
+ * Inicializa el programa. La funcion es llamada despues de que la pagina carga
  */
 function init() {
     try {
         var canvas = document.getElementById("webglcanvas");
-        var options = {  // no need for alpha channel or depth buffer in this program
+        var options = {  //no es necesario el canal alpha
             alpha: false,
             depth: false
         };
@@ -135,14 +135,14 @@ function init() {
         return;
     }
     try {
-        initGL();  // initialize the WebGL graphics context
+        initGL(); 
     }
     catch (e) {
         document.getElementById("canvas-holder").innerHTML =
             "<p>Sorry, could not initialize the WebGL graphics context:" + e + "</p>";
         return;
     }
-    draw();    // draw the image
+    draw();   
 }
 
 </script>
