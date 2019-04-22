@@ -1,10 +1,11 @@
+<!--PROCESOD DE CREACION DE UN CUBO: 2 -->
 <!DOCTYPE html>
 <html>
   <head>   
   <title>Make Coloured Cube</title>
   <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
   <script type="text/javascript" src="webgl-utils.js"></script>
-  
+  <!--En este caso el tipo de dato utilizado es vec3 para vectores de 3 dimensiones agrega proyeccion de perspectiva-->
   <script id="vertex" type="x-shader"> 
     mat4 uMVMatrix = mat4 (1.0, 0.0, 0.0, 0.0,
                 				   0.0, 1.0, 0.0, 0.0,
@@ -96,19 +97,20 @@
     }
           
     function initGeometry() {
+    //hacemos el triangulo 3D agregamos una ordenada Z y agregamos un segundo triangulo para hacer un cuadrado
     var vertices = new Float32Array([
     //|------ 0 ------| |------ 1 ------| |------ 2 ------| 
     //|  x    y    z  | |  x    y    z  | |  x    y    z  |
-        0.5, 0.5, 0.5,    0.5,-0.5, 0.5,   -0.5,-0.5, 0.5,  // triangle 1
-        0.5, 0.5, 0.5,   -0.5, 0.5, 0.5,   -0.5,-0.5, 0.5,  // triangle 2
-        0.5, 0.5,-0.5,    0.5,-0.5,-0.5,   -0.5,-0.5,-0.5,  // triangle 3
+        0.5, 0.5, 0.5,    0.5,-0.5, 0.5,   -0.5,-0.5, 0.5,  // triangulo 1
+        0.5, 0.5, 0.5,   -0.5, 0.5, 0.5,   -0.5,-0.5, 0.5,  // triangulo 2
+        0.5, 0.5,-0.5,    0.5,-0.5,-0.5,   -0.5,-0.5,-0.5,  // triangulo 3
       ]);
      
       cubeVertexPositionBuffer = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-      cubeVertexPositionBuffer.itemSize = 3;
+      cubeVertexPositionBuffer.itemSize = 3;//aumenta el tamaño del itemSize
       cubeVertexPositionBuffer.numItems = vertices.length / cubeVertexPositionBuffer.itemSize;
     }
   
@@ -118,7 +120,7 @@
       gl.clearColor(0, 0.5, 0, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
     
-      gl.drawArrays(gl.LINES, 0, cubeVertexPositionBuffer.numItems);
+      gl.drawArrays(gl.LINES, 0, cubeVertexPositionBuffer.numItems);//dibuja lineas
       //gl.drawArrays(gl.TRIANGLES, 0, cubeVertexPositionBuffer.numItems);
     }
     
@@ -129,6 +131,7 @@
       animate();
       draw();
     }
+
   </script>
   </head>
   <body onload="init()">
