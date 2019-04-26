@@ -178,6 +178,7 @@
           
     //iniciando las formas geometricas que componen el cubo..triangulos compuestos por matrices de vertices 
     function initGeometry() {
+      //crea una nueva matriz de números de punto flotante de 32 bits
       var vertices = new Float32Array([
               // Front face
               -0.5, -0.5,  0.5, //triangulo 1
@@ -243,7 +244,7 @@
               unpackedColors = unpackedColors.concat(color);
           }
       }
-
+      
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(unpackedColors), gl.STATIC_DRAW);
       cubeVertexColorBuffer.itemSize = 4;
       cubeVertexColorBuffer.numItems = 24;
