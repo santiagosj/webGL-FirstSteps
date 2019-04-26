@@ -75,11 +75,11 @@
         return;
       }
 
-    //declaracion de eventos...
+    //declaracion de eventos para recibir coordenadas
       var newX = event.clientX;
       var newY = event.clientY;
 
-    //obteniendo cordenadas
+    //obteniendo coordenadas
       var fudgefactor = 2;
       var deltaX = newX - lastMouseX;
       var deltaY = newY - lastMouseY;
@@ -89,7 +89,7 @@
       rvelX = deltaX / fudgefactor;
       rvelY = deltaY / fudgefactor;
     }
-    //llamado a todas las funciones
+    //funcion init que llama a todas las funciones 
     function init() {
         initWebGL();
         initShaderProgram();
@@ -97,7 +97,7 @@
         tick();
     }
     
-    //iniciando WebGL
+    //iniciando contexto WebGL
     function initWebGL() {
 
       var canvas = document.getElementById("mycanvas");
@@ -108,9 +108,9 @@
 
       document.onmousemove = handleMouseMove;
       
-	  //array de posibles opciones de contexto 
+	  //array de posibles opciones de contexto y compatibilidad
       var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
-      
+
       //recorro names e intenta las distntas opciones pasando como parametro a getContext..
       for (var i = 0; i < names.length; ++i)  {
 
@@ -125,23 +125,24 @@
          if (gl) break;
 
       }
-        
+      //tamaño del canvas  
       gl.viewportWidth = canvas.width;
 
       gl.viewportHeight = canvas.height;
 
     }
-    //iniciando el programa shader, compila los shaders GLSL, y carga los programas shaders para cargarolos en el GPU
+
+    //iniciando el programa shader, compila los shaders GLSL, y carga los programas shaders en el GPU
     function initShaderProgram() {
       var v = document.getElementById("vertex").firstChild.nodeValue;
       var f = document.getElementById("fragment").firstChild.nodeValue;
       
-      //vertex shader
+      //crea vertex shader
       var vs = gl.createShader(gl.VERTEX_SHADER);
       gl.shaderSource(vs, v);
       gl.compileShader(vs);
       
-      //fragment shader
+      //crea fragment shader
       var fs = gl.createShader(gl.FRAGMENT_SHADER);
       gl.shaderSource(fs, f);
       gl.compileShader(fs);
@@ -165,9 +166,9 @@
       //usa el programa
       gl.useProgram(shaderProgram);
       
-      //proporcionamos datos...
-      shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");//area 51...
-      shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");//area 51...
+      //proporciona datos...de matrices en memoria
+      shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+      shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
       //...de posicion y color 
       shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
       gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
@@ -219,7 +220,7 @@
       cubeVertexPositionBuffer = gl.createBuffer();//asignacion de memoria
       gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);//bindeo       
       gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);//data
-      cubeVertexPositionBuffer.itemSize = 3;//tama�o
+      cubeVertexPositionBuffer.itemSize = 3;//size
       cubeVertexPositionBuffer.numItems = vertices.length / cubeVertexPositionBuffer.itemSize;
        
 	   //buffer para atributos de color
