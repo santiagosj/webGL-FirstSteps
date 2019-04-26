@@ -6,7 +6,7 @@
   <script type="text/javascript" src="webgl-utils.js"></script>
   
  <!--SOMBREADORES-->
-
+<!--=============================================================================-->
   <script id="vertex" type="x-shader"> 
     attribute vec3 aVertexPosition;
     attribute vec4 aVertexColor;
@@ -32,6 +32,7 @@
   </script> 
   
   <!--CONTEXTO WEBGL-->
+  <!--=============================================================================-->
   <script type="text/javascript">
    //declaracion de variables
    //variables de buffer y shader program
@@ -98,6 +99,7 @@
     }
     
     //iniciando contexto WebGL
+    //=============================================================================
     function initWebGL() {
 
       var canvas = document.getElementById("mycanvas");
@@ -133,6 +135,7 @@
     }
 
     //iniciando el programa shader, compila los shaders GLSL, y carga los programas shaders en el GPU
+    //============================================================================================
     function initShaderProgram() {
       var v = document.getElementById("vertex").firstChild.nodeValue;
       var f = document.getElementById("fragment").firstChild.nodeValue;
@@ -176,7 +179,8 @@
       gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
     }
           
-    //iniciando las formas geometricas que componen el cubo..triangulos compuestos por matrices de vertices 
+    //iniciando las formas geometricas que componen el cubo..triangulos compuestos por matrices de vertices
+    //================================================================================================ 
     function initGeometry() {
       //crea una nueva matriz de números de punto flotante de 32 bits
       var vertices = new Float32Array([
@@ -263,7 +267,8 @@
       cubeVertexIndexBuffer.itemSize = 1;
       cubeVertexIndexBuffer.numItems = 36;
     }
-  
+    //Dibujando 
+    //=========================================================================================
     function draw() {
       mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
       mat4.identity(mvMatrix);
@@ -287,7 +292,8 @@
   
       gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     }
-  
+    
+    //========================================================================================
     function animate() {
       var newRotationMatrix = mat4.create();
 
@@ -301,7 +307,8 @@
       rvelY = rvelY / 1.1;
       if(Math.abs(rvelY) < 0.001) rvelY = 0;
     }
-      
+    
+    //========================================================================================  
     function tick() {
       requestAnimFrame(tick);
       animate();
