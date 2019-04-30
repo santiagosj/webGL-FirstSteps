@@ -43,7 +43,7 @@
    
    //matrices
     var mvMatrix = mat4.create();
-    var mvMatrixStack = [];
+    var mvMatrixStack = [];  //declaracion de espacio en memoria en tiempo de ejecucion..??
     var pMatrix = mat4.create();
    
    //eventos de mouse
@@ -182,6 +182,7 @@
     //iniciando las formas geometricas que componen el cubo..triangulos compuestos por matrices de vertices
     //================================================================================================ 
     function initGeometry() {
+      //puntos
       //crea una nueva matriz de números de punto flotante de 32 bits
       var vertices = new Float32Array([
               // Front face
@@ -267,7 +268,7 @@
       cubeVertexIndexBuffer.itemSize = 1;
       cubeVertexIndexBuffer.numItems = 36;
     }
-    //Dibujando 
+    //Dibujando (investigar y repasar bind points como ARRAY_BUFFER)
     //=========================================================================================
     function draw() {
       mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
@@ -307,7 +308,7 @@
       rvelY = rvelY / 1.1;
       if(Math.abs(rvelY) < 0.001) rvelY = 0;
     }
-    
+
     //========================================================================================  
     function tick() {
       requestAnimFrame(tick);
